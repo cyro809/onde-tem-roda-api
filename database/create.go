@@ -9,20 +9,20 @@ import (
 func main() {
 	database, _ := sql.Open("sqlite3", "./ondetemroda.db")
 
-	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, nome TEXT, email TEXT, telefone TEXT)")
+	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS users (ID INTEGER PRIMARY KEY, Nome TEXT, Email TEXT, Telefone TEXT)")
 	statement.Exec()
 	statement, _ = database.Prepare(`
 		CREATE TABLE IF NOT EXISTS event (
-			id INTEGER PRIMARY KEY,
-			nome_evento TEXT,
-			grupo TEXT,
-			responsavel TEXT,
-			responsavel_tel TEXT,
-			responsavel_email TEXT,
-			endereco TEXT,
-			place_id TEXT,
-			user_id INTEGER NOT NULL,
-				FOREIGN KEY (user_id) REFERENCES users(id)
+			ID INTEGER PRIMARY KEY,
+			NomeEvento TEXT,
+			Grupo TEXT,
+			Responsavel TEXT,
+			ResponsavelTel TEXT,
+			ResponsavelEmail TEXT,
+			Endereco TEXT,
+			PlaceId TEXT,
+			UserID INTEGER NOT NULL,
+				FOREIGN KEY (UserID) REFERENCES users(ID)
 		)
 	`)
 	statement.Exec()
