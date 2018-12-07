@@ -1,6 +1,7 @@
 package models
 
-type user struct {
+// User is a model
+type User struct {
 	ID       int
 	Nome     string
 	Email    string
