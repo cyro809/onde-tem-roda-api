@@ -4,8 +4,8 @@ package models
 
 // User is a model
 type User struct {
-	ID       int
-	Nome     string
-	Email    string
-	Telefone string
+	ID       int    `json:"ID"`
+	Nome     string `json:"Nome"`
+	Email    string `json:"Email"`
+	Telefone string `json:"Telefone"`
 }

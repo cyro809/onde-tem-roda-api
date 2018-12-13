@@ -5,24 +5,28 @@ import (
 
 	"github.com/onde-tem-roda-api/database"
 	"github.com/onde-tem-roda-api/models"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 // SelectUserByID selects user from the database by its ID
-func SelectUserByID(id int) models.User {
+func SelectUserByID(ID int) models.User {
 	fmt.Println("selecting")
-	connection, err := database.OpenDB()
+	user := models.User{}
+	db, err := database.OpenDB()
 	if err != nil {
-		return models.User{}
+		fmt.Println(err)
 	}
-	defer connection.Close()
 
-	fmt.Println("opened")
+	rows, err2 := db.Query(fmt.Sprintf("SELECT * FROM users WHERE ID = %d", ID))
+	if err2 != nil {
+		fmt.Println(err2)
+	}
+	defer db.Close()
+
 	// Verificar o uso de .Get ou Select
-	rows, _ := connection.Query("SELECT * FROM users WHERE id = 1")
-	fmt.Println(rows)
-	var user models.User
 	for rows.Next() {
-		rows.Scan(&user)
+		rows.Scan(&user.ID, &user.Nome, &user.Email, &user.Telefone)
 	}
 
 	return user
