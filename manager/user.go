@@ -56,3 +56,15 @@ func SelectAllUsers() []models.User {
 
 	return users
 }
+
+//InsertUser inserts a user in the database
+func InsertUser(user models.User) {
+	db, err := database.OpenDB()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	statement, err := db.Prepare("INSERT INTO users (Nome, Email, Telefone) VALUES (?, ?, ?)")
+
+	statement.Exec(user.Nome, user.Email, user.Telefone)
+}
