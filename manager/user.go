@@ -9,18 +9,20 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+func checkErr(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+
 // SelectUserByID selects user from the database by its ID
 func SelectUserByID(ID int) models.User {
 	user := models.User{}
 	db, err := database.OpenDB()
-	if err != nil {
-		fmt.Println(err)
-	}
+	checkErr(err)
 
 	rows, err := db.Query(fmt.Sprintf("SELECT * FROM users WHERE ID = %d", ID))
-	if err != nil {
-		fmt.Println(err)
-	}
+	checkErr(err)
 	defer db.Close()
 
 	// Verificar o uso de .Get ou Select
@@ -35,14 +37,10 @@ func SelectUserByID(ID int) models.User {
 func SelectUserByEmail(email string) models.User {
 	user := models.User{}
 	db, err := database.OpenDB()
-	if err != nil {
-		fmt.Println(err)
-	}
+	checkErr(err)
 
 	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM users WHERE Email = "%s"`, email))
-	if err != nil {
-		fmt.Println(err)
-	}
+	checkErr(err)
 	defer db.Close()
 
 	// Verificar o uso de .Get ou Select
@@ -58,14 +56,10 @@ func SelectAllUsers() []models.User {
 	var users []models.User
 
 	db, err := database.OpenDB()
-	if err != nil {
-		fmt.Println(err)
-	}
+	checkErr(err)
 
 	rows, err := db.Query("SELECT * FROM users")
-	if err != nil {
-		fmt.Println(err)
-	}
+	checkErr(err)
 	defer db.Close()
 
 	// Verificar o uso de .Get ou Select
@@ -81,9 +75,7 @@ func SelectAllUsers() []models.User {
 //InsertUser inserts a user in the database
 func InsertUser(user models.User) {
 	db, err := database.OpenDB()
-	if err != nil {
-		fmt.Println(err)
-	}
+	checkErr(err)
 
 	statement, err := db.Prepare("INSERT INTO users (Nome, Email, Telefone) VALUES (?, ?, ?)")
 
@@ -93,15 +85,37 @@ func InsertUser(user models.User) {
 // DeleteUserByID deletes user from database by its ID
 func DeleteUserByID(ID int) {
 	db, err := database.OpenDB()
-	if err != nil {
-		fmt.Println(err)
-	}
+	checkErr(err)
 
 	statement, err := db.Prepare("DELETE FROM users WHERE id = ?")
+	checkErr(err)
 
 	res, err := statement.Exec(ID)
+	checkErr(err)
 
 	affec, err := res.RowsAffected()
+	checkErr(err)
+
+	if affec > 0 {
+		fmt.Println(fmt.Printf("Affected %d rows", affec))
+	} else {
+		fmt.Println("No rows were affected")
+	}
+}
+
+// DeleteUserByEmail deletes user fromd database by its Email
+func DeleteUserByEmail(email string) {
+	db, err := database.OpenDB()
+	checkErr(err)
+
+	statement, err := db.Prepare(`DELETE FROM users WHERE Email = "?"`)
+	checkErr(err)
+
+	res, err := statement.Exec(email)
+	checkErr(err)
+
+	affec, err := res.RowsAffected()
+	checkErr(err)
 
 	if affec > 0 {
 		fmt.Println(fmt.Printf("Affected %d rows", affec))
