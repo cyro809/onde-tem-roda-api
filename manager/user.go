@@ -124,7 +124,7 @@ func DeleteUserByEmail(email string) {
 	checkAffectedRows(affec)
 }
 
-// UpdateUserEmail
+// UpdateUserEmail updates user email
 func UpdateUserEmail(ID int, email string) {
 	db, err := database.OpenDB()
 	checkErr(err)
@@ -133,6 +133,40 @@ func UpdateUserEmail(ID int, email string) {
 	checkErr(err)
 
 	res, err := statement.Exec(email, ID)
+	checkErr(err)
+
+	affec, err := res.RowsAffected()
+	checkErr(err)
+
+	checkAffectedRows(affec)
+}
+
+// UpdateUserTelephone updates user telephone
+func UpdateUserTelephone(ID int, telephone string) {
+	db, err := database.OpenDB()
+	checkErr(err)
+
+	statement, err := db.Prepare(`UPDATE users SET Telefone = "?" WHERE id = ?`)
+	checkErr(err)
+
+	res, err := statement.Exec(telephone, ID)
+	checkErr(err)
+
+	affec, err := res.RowsAffected()
+	checkErr(err)
+
+	checkAffectedRows(affec)
+}
+
+// UpdateUserName updates user name
+func UpdateUserName(ID int, name string) {
+	db, err := database.OpenDB()
+	checkErr(err)
+
+	statement, err := db.Prepare(`UPDATE users SET Nome = "?" WHERE id = ?`)
+	checkErr(err)
+
+	res, err := statement.Exec(name, ID)
 	checkErr(err)
 
 	affec, err := res.RowsAffected()
