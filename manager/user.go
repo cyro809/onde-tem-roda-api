@@ -15,6 +15,14 @@ func checkErr(err error) {
 	}
 }
 
+func checkAffectedRows(affec int64) {
+	if affec > 0 {
+		fmt.Println(fmt.Printf("Affected %d rows", affec))
+	} else {
+		fmt.Println("No rows were affected")
+	}
+}
+
 // SelectUserByID selects user from the database by its ID
 func SelectUserByID(ID int) models.User {
 	user := models.User{}
@@ -96,11 +104,7 @@ func DeleteUserByID(ID int) {
 	affec, err := res.RowsAffected()
 	checkErr(err)
 
-	if affec > 0 {
-		fmt.Println(fmt.Printf("Affected %d rows", affec))
-	} else {
-		fmt.Println("No rows were affected")
-	}
+	checkAffectedRows(affec)
 }
 
 // DeleteUserByEmail deletes user fromd database by its Email
@@ -117,9 +121,22 @@ func DeleteUserByEmail(email string) {
 	affec, err := res.RowsAffected()
 	checkErr(err)
 
-	if affec > 0 {
-		fmt.Println(fmt.Printf("Affected %d rows", affec))
-	} else {
-		fmt.Println("No rows were affected")
-	}
+	checkAffectedRows(affec)
+}
+
+// UpdateUserEmail
+func UpdateUserEmail(ID int, email string) {
+	db, err := database.OpenDB()
+	checkErr(err)
+
+	statement, err := db.Prepare(`UPDATE users SET Email = "?" WHERE id = ?`)
+	checkErr(err)
+
+	res, err := statement.Exec(email, ID)
+	checkErr(err)
+
+	affec, err := res.RowsAffected()
+	checkErr(err)
+
+	checkAffectedRows(affec)
 }
