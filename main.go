@@ -21,17 +21,22 @@ func main() {
 	// 	PlaceID:          "0o9i8u7y",
 	// 	UserID:           1,
 	// }
+	// manager.UpdateEventByField(2, "NomeEvento", "Mr Caopeira Roda")
+	manager.DeleteEventByID(2)
 	// manager.InsertEvent(event)
-	// events := manager.SelectAllEvents()
+	events := manager.SelectAllEvents()
 	// user := models.User{
 	// 	Nome:     "Brutus",
 	// 	Email:    "brutus@brutus.com",
 	// 	Telefone: "11111111",
 	// }
-	manager.UpdateUserByField(1, "Telefone", "777777777")
+
+	// manager.UpdateUserByField(1, "Telefone", "777777777")
 	// manager.InsertUser(user)
 	// user := manager.SelectUserByEmail("cyro809@gmail.com")
+
 	users := manager.SelectAllUsers()
+
 	fmt.Println(users)
-	// fmt.Println(events)
+	fmt.Println(events)
 }

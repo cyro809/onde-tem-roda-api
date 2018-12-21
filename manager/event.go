@@ -118,3 +118,37 @@ func InsertEvent(event models.Event) {
 		event.UserID,
 	)
 }
+
+// UpdateEventByField updates user name
+func UpdateEventByField(ID int, field string, value string) {
+	db, err := database.OpenDB()
+	checkErr(err)
+
+	statement, err := db.Prepare(fmt.Sprintf(`UPDATE event SET %s=? WHERE id = ?`, field))
+	checkErr(err)
+
+	res, err := statement.Exec(value, ID)
+	checkErr(err)
+
+	affec, err := res.RowsAffected()
+	checkErr(err)
+
+	checkAffectedRows(affec)
+}
+
+// DeleteEventByID deletes event from database by its ID
+func DeleteEventByID(ID int) {
+	db, err := database.OpenDB()
+	checkErr(err)
+
+	statement, err := db.Prepare("DELETE FROM event WHERE id = ?")
+	checkErr(err)
+
+	res, err := statement.Exec(ID)
+	checkErr(err)
+
+	affec, err := res.RowsAffected()
+	checkErr(err)
+
+	checkAffectedRows(affec)
+}
