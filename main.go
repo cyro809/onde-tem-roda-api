@@ -10,7 +10,7 @@ import (
 
 // criar um pacote cmd com um main para instrumentar os command lines
 func main() {
-	events := manager.SelectEventsByField("Grupo", "Martins")
+	events := manager.SelectAllEvents()
 	// user := models.User{
 	// 	Nome:     "Brutus",
 	// 	Email:    "brutus@brutus.com",

@@ -38,7 +38,7 @@ func SelectEventByID(ID int) models.Event {
 	return event
 }
 
-// SelectEventsByField selects event by field value likeness
+// SelectEventsByField selects events by field value likeness
 func SelectEventsByField(field string, value string) []models.Event {
 	var events []models.Event
 
@@ -46,6 +46,37 @@ func SelectEventsByField(field string, value string) []models.Event {
 	checkErr(err)
 
 	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM event WHERE %s LIKE "%%%s%%"`, field, value))
+	checkErr(err)
+	defer db.Close()
+
+	// Verificar o uso de .Get ou Select
+	for rows.Next() {
+		event := models.Event{}
+		rows.Scan(
+			&event.ID,
+			&event.NomeEvento,
+			&event.Grupo,
+			&event.Responsavel,
+			&event.ResponsavelTel,
+			&event.ResponsavelEmail,
+			&event.Endereco,
+			&event.PlaceID,
+			&event.UserID,
+		)
+		events = append(events, event)
+	}
+
+	return events
+}
+
+// SelectAllEvents selects all events
+func SelectAllEvents() []models.Event {
+	var events []models.Event
+
+	db, err := database.OpenDB()
+	checkErr(err)
+
+	rows, err := db.Query("SELECT * FROM event")
 	checkErr(err)
 	defer db.Close()
 
