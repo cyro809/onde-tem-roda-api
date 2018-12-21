@@ -10,7 +10,7 @@ import (
 // funções para o consultas e alterações no banco de dados
 // Veirifcar função In e Select (projeto do cartola, manger amigos.go)
 
-// SelectEventByID selects user from the database by its ID
+// SelectEventByID selects event from the database by its ID
 func SelectEventByID(ID int) models.Event {
 	event := models.Event{}
 	db, err := database.OpenDB()
@@ -33,8 +33,38 @@ func SelectEventByID(ID int) models.Event {
 			&event.PlaceID,
 			&event.UserID,
 		)
-		fmt.Println("next")
 	}
 
 	return event
+}
+
+// SelectEventsByField selects event by field value likeness
+func SelectEventsByField(field string, value string) []models.Event {
+	var events []models.Event
+
+	db, err := database.OpenDB()
+	checkErr(err)
+
+	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM event WHERE %s LIKE "%%%s%%"`, field, value))
+	checkErr(err)
+	defer db.Close()
+
+	// Verificar o uso de .Get ou Select
+	for rows.Next() {
+		event := models.Event{}
+		rows.Scan(
+			&event.ID,
+			&event.NomeEvento,
+			&event.Grupo,
+			&event.Responsavel,
+			&event.ResponsavelTel,
+			&event.ResponsavelEmail,
+			&event.Endereco,
+			&event.PlaceID,
+			&event.UserID,
+		)
+		events = append(events, event)
+	}
+
+	return events
 }
