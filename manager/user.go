@@ -110,49 +110,15 @@ func DeleteUserByEmail(email string) {
 	checkAffectedRows(affec)
 }
 
-// UpdateUserEmail updates user email
-func UpdateUserEmail(ID int, email string) {
+// UpdateUserByField updates user name
+func UpdateUserByField(ID int, field string, value string) {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	statement, err := db.Prepare(`UPDATE users SET Email = "?" WHERE id = ?`)
+	statement, err := db.Prepare(fmt.Sprintf(`UPDATE users SET %s=? WHERE id = ?`, field))
 	checkErr(err)
 
-	res, err := statement.Exec(email, ID)
-	checkErr(err)
-
-	affec, err := res.RowsAffected()
-	checkErr(err)
-
-	checkAffectedRows(affec)
-}
-
-// UpdateUserTelephone updates user telephone
-func UpdateUserTelephone(ID int, telephone string) {
-	db, err := database.OpenDB()
-	checkErr(err)
-
-	statement, err := db.Prepare(`UPDATE users SET Telefone = "?" WHERE id = ?`)
-	checkErr(err)
-
-	res, err := statement.Exec(telephone, ID)
-	checkErr(err)
-
-	affec, err := res.RowsAffected()
-	checkErr(err)
-
-	checkAffectedRows(affec)
-}
-
-// UpdateUserName updates user name
-func UpdateUserName(ID int, name string) {
-	db, err := database.OpenDB()
-	checkErr(err)
-
-	statement, err := db.Prepare(`UPDATE users SET Nome = "?" WHERE id = ?`)
-	checkErr(err)
-
-	res, err := statement.Exec(name, ID)
+	res, err := statement.Exec(value, ID)
 	checkErr(err)
 
 	affec, err := res.RowsAffected()
