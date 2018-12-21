@@ -9,20 +9,6 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-func checkErr(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
-func checkAffectedRows(affec int64) {
-	if affec > 0 {
-		fmt.Println(fmt.Printf("Affected %d rows", affec))
-	} else {
-		fmt.Println("No rows were affected")
-	}
-}
-
 // SelectUserByID selects user from the database by its ID
 func SelectUserByID(ID int) models.User {
 	user := models.User{}

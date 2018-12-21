@@ -99,3 +99,22 @@ func SelectAllEvents() []models.Event {
 
 	return events
 }
+
+// InsertEvent inserts event on database
+func InsertEvent(event models.Event) {
+	db, err := database.OpenDB()
+	checkErr(err)
+
+	statement, err := db.Prepare("INSERT INTO event (NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceId, UserID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+
+	statement.Exec(
+		event.NomeEvento,
+		event.Grupo,
+		event.Responsavel,
+		event.ResponsavelTel,
+		event.ResponsavelEmail,
+		event.Endereco,
+		event.PlaceID,
+		event.UserID,
+	)
+}
