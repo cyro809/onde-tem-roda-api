@@ -15,7 +15,7 @@ func SelectUserByID(ID int) models.User {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	rows, err := db.Query(fmt.Sprintf("SELECT * FROM users WHERE ID = %d", ID))
+	rows, err := db.Query(fmt.Sprintf("SELECT ID, Nome, Email, Telefone FROM users WHERE ID = %d", ID))
 	checkErr(err)
 	defer db.Close()
 
@@ -33,7 +33,7 @@ func SelectUserByEmail(email string) models.User {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM users WHERE Email = "%s"`, email))
+	rows, err := db.Query(fmt.Sprintf(`SELECT ID, Nome, Email, Telefone FROM users WHERE Email = "%s"`, email))
 	checkErr(err)
 	defer db.Close()
 
@@ -52,7 +52,7 @@ func SelectAllUsers() []models.User {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	rows, err := db.Query("SELECT * FROM users")
+	rows, err := db.Query("SELECT ID, Nome, Email, Telefone FROM users")
 	checkErr(err)
 	defer db.Close()
 
