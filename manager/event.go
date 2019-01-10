@@ -16,7 +16,7 @@ func SelectEventByID(ID int) models.Event {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	rows, err := db.Query(fmt.Sprintf("SELECT * FROM event WHERE ID = %d", ID))
+	rows, err := db.Query(fmt.Sprintf("SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, UserID FROM event WHERE ID = %d", ID))
 	checkErr(err)
 	defer db.Close()
 
@@ -45,7 +45,7 @@ func SelectEventsByField(field string, value string) []models.Event {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM event WHERE %s LIKE "%%%s%%"`, field, value))
+	rows, err := db.Query(fmt.Sprintf(`SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, UserID FROM event WHERE %s LIKE "%%%s%%"`, field, value))
 	checkErr(err)
 	defer db.Close()
 
@@ -76,7 +76,7 @@ func SelectAllEvents() []models.Event {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	rows, err := db.Query("SELECT * FROM event")
+	rows, err := db.Query("SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, UserID FROM event")
 	checkErr(err)
 	defer db.Close()
 

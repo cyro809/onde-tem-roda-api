@@ -24,7 +24,8 @@ func main() {
 	// manager.UpdateEventByField(2, "NomeEvento", "Mr Caopeira Roda")
 	// manager.DeleteEventByID(2)
 	// manager.InsertEvent(event)
-	// events := manager.SelectAllEvents()
+	events := manager.SelectAllEvents()
+	event := manager.SelectEventByID(1)
 	// user := models.User{
 	// 	Nome:     "Brutus",
 	// 	Email:    "brutus@brutus.com",
@@ -38,5 +39,6 @@ func main() {
 	// users := manager.SelectAllUsers()
 
 	fmt.Println(user)
-	// fmt.Println(events)
+	fmt.Println(events)
+	fmt.Println(event)
 }
