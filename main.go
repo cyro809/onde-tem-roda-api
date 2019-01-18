@@ -19,7 +19,12 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 func main() {
 	router := httprouter.New()
 	router.GET("/", Index)
+
 	router.GET("/users", handler.GetAllUsers)
 	router.GET("/users/:userID", handler.GetUserByID)
+
+	router.GET("/events", handler.GetAllEvents)
+	router.GET("/events/:eventID", handler.GetEventByID)
+
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

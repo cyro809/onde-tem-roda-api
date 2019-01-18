@@ -20,6 +20,7 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 }
 
+// GetUserByID return a user by it's ID
 func GetUserByID(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	userID, err := strconv.Atoi(ps.ByName("userID"))
 	if err != nil {
