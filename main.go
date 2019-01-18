@@ -6,18 +6,32 @@ import (
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
+	"github.com/onde-tem-roda-api/handler"
 )
 
 //olhar pacote flag
 
+type Handle func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) error
+
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	fmt.Fprint(w, "Welcome!\n")
+}
+
+func WrapperHandler(handle Handle) httprouter.Handle {
+	wrapper := func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		err := handle(w, r, ps)
+		if err != nil {
+			panic(err)
+		}
+	}
+	return wrapper
 }
 
 // criar um pacote cmd com um main para instrumentar os command lines
 func main() {
 	router := httprouter.New()
 	router.GET("/", Index)
+	router.GET("/users", handler.GetAllUsers)
 	log.Fatal(http.ListenAndServe(":8080", router))
 	// event := models.Event{
 	// 	NomeEvento:       "Roda Mister Capoeira",
