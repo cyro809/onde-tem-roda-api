@@ -1,1 +1,1 @@
-web: ./onde-tem-roda-api
+web: go run main.go
