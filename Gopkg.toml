@@ -39,4 +39,3 @@
 
 [metadata.heroku]
   root-package = "github.com/onde-tem-roda-api"
-  go-version = "go1.11.0"
