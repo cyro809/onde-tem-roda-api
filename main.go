@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/onde-tem-roda-api/handler"
@@ -26,5 +27,5 @@ func main() {
 	router.GET("/events", handler.GetAllEvents)
 	router.GET("/events/:eventID", handler.GetEventByID)
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), router))
 }
