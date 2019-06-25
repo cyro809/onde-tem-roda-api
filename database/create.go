@@ -7,7 +7,7 @@ import (
 )
 
 func Create() {
-	database, _ := sql.Open("sqlite3", "./ondetemroda.db")
+	database, _ := sql.Open("sqlite3", "database/ondetemroda.db")
 
 	statement, _ := database.Prepare("CREATE TABLE IF NOT EXISTS users (ID INTEGER PRIMARY KEY, Nome TEXT, Email TEXT, Telefone TEXT)")
 	statement.Exec()
@@ -21,6 +21,8 @@ func Create() {
 			ResponsavelEmail TEXT,
 			Endereco TEXT,
 			PlaceId TEXT,
+			Latitude REAL,
+			Longitude REAL,
 			UserID INTEGER NOT NULL,
 				FOREIGN KEY (UserID) REFERENCES users(ID)
 		)

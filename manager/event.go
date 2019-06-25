@@ -16,7 +16,7 @@ func SelectEventByID(ID int) models.Event {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	rows, err := db.Query(fmt.Sprintf("SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, UserID FROM event WHERE ID = %d", ID))
+	rows, err := db.Query(fmt.Sprintf("SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, Latitude, Longitude, UserID FROM event WHERE ID = %d", ID))
 	checkErr(err)
 	defer db.Close()
 
@@ -31,6 +31,8 @@ func SelectEventByID(ID int) models.Event {
 			&event.ResponsavelEmail,
 			&event.Endereco,
 			&event.PlaceID,
+			&event.Latitude,
+			&event.Longitude,
 			&event.UserID,
 		)
 	}
@@ -45,7 +47,7 @@ func SelectEventsByField(field string, value string) []models.Event {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	rows, err := db.Query(fmt.Sprintf(`SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, UserID FROM event WHERE %s LIKE "%%%s%%"`, field, value))
+	rows, err := db.Query(fmt.Sprintf(`SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, Latitude, Longitude, UserID FROM event WHERE %s LIKE "%%%s%%"`, field, value))
 	checkErr(err)
 	defer db.Close()
 
@@ -61,6 +63,8 @@ func SelectEventsByField(field string, value string) []models.Event {
 			&event.ResponsavelEmail,
 			&event.Endereco,
 			&event.PlaceID,
+			&event.Latitude,
+			&event.Longitude,
 			&event.UserID,
 		)
 		events = append(events, event)
@@ -76,7 +80,7 @@ func SelectAllEvents() []models.Event {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	rows, err := db.Query("SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, UserID FROM event")
+	rows, err := db.Query("SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, Latitude, Longitude, UserID FROM event")
 	checkErr(err)
 	defer db.Close()
 
@@ -92,6 +96,8 @@ func SelectAllEvents() []models.Event {
 			&event.ResponsavelEmail,
 			&event.Endereco,
 			&event.PlaceID,
+			&event.Latitude,
+			&event.Longitude,
 			&event.UserID,
 		)
 		events = append(events, event)
@@ -105,7 +111,7 @@ func InsertEvent(event models.Event) {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	statement, err := db.Prepare("INSERT INTO event (NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceId, UserID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+	statement, err := db.Prepare("INSERT INTO event (NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceId, Latitude, Longitude, UserID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
 
 	statement.Exec(
 		event.NomeEvento,
@@ -115,6 +121,8 @@ func InsertEvent(event models.Event) {
 		event.ResponsavelEmail,
 		event.Endereco,
 		event.PlaceID,
+		&event.Latitude,
+		&event.Longitude,
 		event.UserID,
 	)
 }
