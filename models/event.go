@@ -12,7 +12,8 @@ type Event struct {
 	ResponsavelEmail string  `json:"ResponsavelEmail"`
 	Endereco         string  `json:"Endereco"`
 	PlaceID          string  `json:"PlaceID"`
-	Latitude	     float32 `json:"Latitude"`
-	Longitude		 float32 `json:"Longitude"`
+	Latitude         float32 `json:"Latitude"`
+	Longitude        float32 `json:"Longitude"`
 	UserID           int     `json:"UserID"`
+	EventDate        int     `json:"EventDate"`
 }

@@ -80,7 +80,7 @@ func SelectAllEvents() []models.Event {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	rows, err := db.Query("SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, Latitude, Longitude, UserID FROM event")
+	rows, err := db.Query("SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, Latitude, Longitude, UserID, EventDate FROM event")
 	checkErr(err)
 	defer db.Close()
 
@@ -99,6 +99,7 @@ func SelectAllEvents() []models.Event {
 			&event.Latitude,
 			&event.Longitude,
 			&event.UserID,
+			&event.EventDate,
 		)
 		events = append(events, event)
 	}
