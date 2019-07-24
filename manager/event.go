@@ -16,7 +16,7 @@ func SelectEventByID(ID int) models.Event {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	rows, err := db.Query(fmt.Sprintf("SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, Latitude, Longitude, UserID FROM event WHERE ID = %d", ID))
+	rows, err := db.Query(fmt.Sprintf("SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, Latitude, Longitude, UserID, EventDate FROM event WHERE ID = %d", ID))
 	checkErr(err)
 	defer db.Close()
 
@@ -34,6 +34,7 @@ func SelectEventByID(ID int) models.Event {
 			&event.Latitude,
 			&event.Longitude,
 			&event.UserID,
+			&event.EventDate,
 		)
 	}
 
