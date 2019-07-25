@@ -48,7 +48,7 @@ func SelectEventsByField(field string, value string) []models.Event {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	rows, err := db.Query(fmt.Sprintf(`SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, Latitude, Longitude, UserID FROM event WHERE %s LIKE "%%%s%%"`, field, value))
+	rows, err := db.Query(fmt.Sprintf(`SELECT ID, NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceID, Latitude, Longitude, UserID, EventDate FROM event WHERE %s LIKE "%%%s%%"`, field, value))
 	checkErr(err)
 	defer db.Close()
 
@@ -67,6 +67,7 @@ func SelectEventsByField(field string, value string) []models.Event {
 			&event.Latitude,
 			&event.Longitude,
 			&event.UserID,
+			&event.EventDate,
 		)
 		events = append(events, event)
 	}
@@ -113,7 +114,7 @@ func InsertEvent(event models.Event) {
 	db, err := database.OpenDB()
 	checkErr(err)
 
-	statement, err := db.Prepare("INSERT INTO event (NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceId, Latitude, Longitude, UserID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+	statement, err := db.Prepare("INSERT INTO event (NomeEvento, Grupo, Responsavel, ResponsavelTel, ResponsavelEmail, Endereco, PlaceId, Latitude, Longitude, UserID, EventDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
 
 	statement.Exec(
 		event.NomeEvento,
@@ -123,9 +124,10 @@ func InsertEvent(event models.Event) {
 		event.ResponsavelEmail,
 		event.Endereco,
 		event.PlaceID,
-		&event.Latitude,
-		&event.Longitude,
+		event.Latitude,
+		event.Longitude,
 		event.UserID,
+		event.EventDate,
 	)
 }
 
